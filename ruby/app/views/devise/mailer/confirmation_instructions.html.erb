@@ -1,0 +1,7 @@
+<p>Welcome <%= @resource.email %>!</p>
+
+<p>You can confirm your account email through the link below:</p>
+
+<p><%= link_to 'Confirm my account', "#{ENV['BACKEND_BASE_URL']}/api/v1/confirmation?confirmation_token=#{@token}" %></p>
+
+<p>If you didn't create an account, just ignore this email.</p>

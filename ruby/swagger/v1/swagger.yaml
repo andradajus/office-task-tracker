@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: API V1 Quadro Alas Review Center
+  description: API documentation for Quadro Alas Review Center
+  version: 'v1'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /api/v1/signup:
+    post:
+      summary: User Registration
+      description: Register a new user with email, password, company name, and phone number
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: test@example.com
+                    password:
+                      type: string
+                      example: Password123!
+                    password_confirmation:
+                      type: string
+                      example: Password123!
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: test@example.com
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2025-02-09T13:21:38.239Z'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      password:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+  /api/v1/login:
+      post:
+        summary: User Login
+        description: Log in a user with email and password
+        tags:
+          - Authentication
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: test@example.com
+                      password:
+                        type: string
+                        example: Password123!
+        responses:
+          '200':
+            description: User logged in successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      example: your_jwt_token_here
+                    user:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          example: test@example.com
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: Unauthorized
+  /api/v1/password:
+    post:
+      summary: Forgot Password
+      description: Send password reset instructions to the user's email
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: test@example.com
+      responses:
+        '200':
+          description: Password reset instructions sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Password reset instructions have been sent to your email.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: Email not found
+    put:
+      summary: Update Password
+      description: Update the user's password using the reset token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    reset_password_token:
+                      type: string
+                      example: your_reset_password_token_here
+                    password:
+                      type: string
+                      example: NewPassword123!
+                    password_confirmation:
+                      type: string
+                      example: NewPassword123!
+      responses:
+        '200':
+          description: Password has been successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Password has been successfully updated.
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: Token is invalid or expired

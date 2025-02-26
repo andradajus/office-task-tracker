@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] || 'localhost' %>
+
+development:
+  <<: *default
+  database: qarc_development
+
+test:
+  <<: *default
+  database: qarc_test
+
+production:
+  <<: *default
+  database: qarc_production
+  username: qarc
+  password: <%= ENV['DATABASE_PASSWORD'] %>
