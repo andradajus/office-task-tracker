@@ -46,6 +46,6 @@ export const API = {
   // END AUTHENTICATION API //
 
   // USER API //
-  user: () => api(UserAPI.user, 'get'),
+  currentUserDetails: () => api(UserAPI.user, 'get'),
   // END USER API //
 };

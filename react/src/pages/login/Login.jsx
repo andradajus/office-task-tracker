@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,17 +12,47 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { UserRoundPlus } from 'lucide-react';
+import { API } from '@/api/api';
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const handleLogin = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [credentials, setCredentials] = useState({
+    login: '',
+    password: '',
+  });
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Add login logic here
-    console.log('Login attempted');
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await API.login({ user: credentials });
+      const authToken = response.data.token;
+      Cookies.set('Authorization', authToken);
+
+      navigate('/dashboard');
+    } catch (error) {
+      console.error(error);
+      setError('Invalid email or password');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleRegistration = () => {
     navigate('/register');
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setCredentials((prevCredentials) => ({
+      ...prevCredentials,
+      [id]: value,
+    }));
   };
 
   return (
@@ -40,11 +71,16 @@ const LoginPage = () => {
           <Tabs defaultValue="login" className="w-full">
             <TabsContent value="login">
               <form className="space-y-4 mt-5" onSubmit={handleLogin}>
+                {error && (
+                  <div className="text-red-500 text-center">{error}</div>
+                )}
                 <div className="space-y-2">
-                  <Label htmlFor="identifier">Email or ID Number</Label>
+                  <Label htmlFor="login">Email or ID Number</Label>
                   <Input
-                    id="identifier"
+                    id="login"
                     placeholder="Enter your email or ID number"
+                    value={credentials.login}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -64,11 +100,17 @@ const LoginPage = () => {
                     id="password"
                     type="password"
                     placeholder="••••••••"
+                    value={credentials.password}
+                    onChange={handleChange}
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full text-black">
-                  Login
+                <Button
+                  type="submit"
+                  className="w-full text-black"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Logging in...' : 'Login'}
                 </Button>
               </form>
             </TabsContent>
