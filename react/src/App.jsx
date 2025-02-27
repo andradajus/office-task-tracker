@@ -3,11 +3,11 @@ import { ROUTES } from './constants/routes';
 
 const App = () => {
   return (
-      <Routes>
-        {ROUTES.map((route, index) => (
-          <Route key={index} path={route.path} element={<route.element />} />
-        ))}
-      </Routes>
+    <Routes>
+      {ROUTES.map((route, index) => (
+        <Route key={index} path={route.path} element={<route.element />} />
+      ))}
+    </Routes>
   );
 };
 

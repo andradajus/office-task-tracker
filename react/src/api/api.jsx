@@ -42,6 +42,7 @@ const api = async (endpoint, method, body, params, customHeaders = {}) => {
 export const API = {
   // AUTHENTICATION API //
   login: (body) => api(AuthenticationAPI.login, 'post', body),
+  register: (body) => api(AuthenticationAPI.register, 'post', body),
   // END AUTHENTICATION API //
 
   // USER API //
