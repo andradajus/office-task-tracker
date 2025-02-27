@@ -8,14 +8,14 @@ default: &default
 
 development:
   <<: *default
-  database: qarc_development
+  database: qao_sa_development
 
 test:
   <<: *default
-  database: qarc_test
+  database: qao_sa_test
 
 production:
   <<: *default
-  database: qarc_production
-  username: qarc
+  database: qao_sa_production
+  username: qao
   password: <%= ENV['DATABASE_PASSWORD'] %>
