@@ -4,8 +4,12 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
+    resource.role = 'student'
 
     if resource.save
+      if params[:user].present? && params[:user][:profile_photo].present?
+        resource.profile_photo.attach(params[:user][:profile_photo])
+      end
       render_resource(resource)
     else
       Rails.logger.error(resource.errors.full_messages)
@@ -16,7 +20,7 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation, :id_number, :first_name, :middle_name, :last_name, :birthday, :profile_photo, :course, :contact_number, :emergency_contact, :emergency_contact_number)
   end
 
   def render_resource(resource)

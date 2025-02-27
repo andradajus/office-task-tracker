@@ -3,24 +3,19 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   skip_before_action :authenticate_request, only: [:create]
 
   def create
-    user = User.find_by_email(sign_in_params[:email])
+    user = User.find_by('email = ? OR id_number = ?', sign_in_params[:login], sign_in_params[:login])
 
     if user&.valid_password?(sign_in_params[:password])
-      # Commenting out the confirmation check
-      # if user.confirmed?
-        render json: { token: user.generate_jwt }
-      # else
-      #   render json: { errors: { 'email' => ['is not confirmed'] } }, status: :unprocessable_entity
-      # end
+      render json: { token: user.generate_jwt }
     else
-      render json: { errors: { 'email or password' => ['is invalid'] } }, status: :unprocessable_entity
+      render json: { errors: { 'login or password' => ['is invalid'] } }, status: :unprocessable_entity
     end
   end
 
   private
 
   def sign_in_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:login, :password)
   end
 
   def respond_with(resource, _opts = {})

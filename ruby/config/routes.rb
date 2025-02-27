@@ -19,6 +19,8 @@ Rails.application.routes.draw do
           passwords: 'api/v1/users/passwords',
           confirmations: 'api/v1/users/confirmations'
         }
+
+        resource :user, only: [:show]
     end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

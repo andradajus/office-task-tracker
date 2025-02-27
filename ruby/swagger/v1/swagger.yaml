@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: API V1 Quadro Alas Review Center
-  description: API documentation for Quadro Alas Review Center
+  title: API V1
+  description: API documentation
   version: 'v1'
 components:
   securitySchemes:
@@ -13,28 +13,56 @@ paths:
   /api/v1/signup:
     post:
       summary: User Registration
-      description: Register a new user with email, password, company name, and phone number
+      description: Register a new user with email, password, and other details
       tags:
         - Authentication
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
-                user:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      example: test@example.com
-                    password:
-                      type: string
-                      example: Password123!
-                    password_confirmation:
-                      type: string
-                      example: Password123!
+                email:
+                  type: string
+                  example: test@example.com
+                password:
+                  type: string
+                  example: Password123!
+                password_confirmation:
+                  type: string
+                  example: Password123!
+                id_number:
+                  type: string
+                  example: 123456
+                first_name:
+                  type: string
+                  example: John
+                middle_name:
+                  type: string
+                  example: A.
+                last_name:
+                  type: string
+                  example: Doe
+                birthday:
+                  type: string
+                  format: date
+                  example: "1990-01-01"
+                profile_photo:
+                  type: string
+                  format: binary
+                course:
+                  type: string
+                  example: Computer Science
+                contact_number:
+                  type: string
+                  example: +1234567890
+                emergency_contact:
+                  type: string
+                  example: Jane Doe
+                emergency_contact_number:
+                  type: string
+                  example: +0987654321
       responses:
         '201':
           description: User registered successfully
@@ -55,7 +83,7 @@ paths:
                       created_at:
                         type: string
                         format: date-time
-                        example: '2025-02-09T13:21:38.239Z'
+                        example: "2025-02-09T13:21:38.239Z"
         '422':
           description: Unprocessable Entity
           content:
@@ -76,55 +104,90 @@ paths:
                         items:
                           type: string
                           example: "can't be blank"
+                      id_number:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      first_name:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      last_name:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      birthday:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      contact_number:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      emergency_contact:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
+                      emergency_contact_number:
+                        type: array
+                        items:
+                          type: string
+                          example: "can't be blank"
   /api/v1/login:
-      post:
-        summary: User Login
-        description: Log in a user with email and password
-        tags:
-          - Authentication
-        requestBody:
-          required: true
+    post:
+      summary: User Login
+      description: Log in a user with email or ID number and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                      example: test@example.com
+                    password:
+                      type: string
+                      example: Password123!
+      responses:
+        '200':
+          description: User logged in successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
+                  token:
+                    type: string
+                    example: your_jwt_token_here
                   user:
                     type: object
                     properties:
                       email:
                         type: string
                         example: test@example.com
-                      password:
-                        type: string
-                        example: Password123!
-        responses:
-          '200':
-            description: User logged in successfully
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    token:
-                      type: string
-                      example: your_jwt_token_here
-                    user:
-                      type: object
-                      properties:
-                        email:
-                          type: string
-                          example: test@example.com
-          '401':
-            description: Unauthorized
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    error:
-                      type: string
-                      example: Unauthorized
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
   /api/v1/password:
     post:
       summary: Forgot Password
@@ -220,3 +283,41 @@ paths:
                     items:
                       type: string
                       example: Token is invalid or expired
+  /api/v1/user:
+    get:
+      summary: Get Current User
+      description: Retrieve the details of the currently authenticated user
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Current user details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: test@example.com
+                  first_name:
+                    type: string
+                    example: John
+                  middle_name:
+                    type: string
+                    example: A.
+                  last_name:
+                    type: string
+                    example: Doe
+                  birthday:
+                    type: string
+                    format: date
+                    example: "1990-01-01"
+                  profile_photo_url:
+                    type: string
+                    example: /rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBd0E9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f2b2c2e2
