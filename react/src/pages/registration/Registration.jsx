@@ -96,7 +96,7 @@ function Registration() {
 
   const onSubmit = async (e, values) => {
     e.preventDefault();
-    
+
     setIsSubmitting(true);
     setError(null);
     setFieldErrors({});
@@ -173,7 +173,12 @@ function Registration() {
           )}
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={(e) =>
+                form.handleSubmit((values) => onSubmit(e, values))(e)
+              }
+              className="space-y-6"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
