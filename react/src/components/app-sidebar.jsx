@@ -1,155 +1,60 @@
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from 'lucide-react';
-
-import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from '@/components/ui/sidebar';
+import { MdDashboard } from "react-icons/md"
+import { FaTasks, FaRegClock } from "react-icons/fa"
+import { NavMain } from "@/components/nav-main"
+import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
 
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-  teams: [
-    {
-      name: 'QAO',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
   navMain: [
     {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
+      title: "Dashboard",
+      url: "#",
+      icon: MdDashboard,
       isActive: true,
       items: [
         {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
+          title: "Home",
+          url: "/dashboard",
         },
       ],
     },
     {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
+      title: "Tasks",
+      url: "#",
+      icon: FaTasks,
       items: [
         {
-          title: 'Genesis',
-          url: '#',
+          title: "My Tasks",
+          url: "/dashboard/tasks/my-tasks",
         },
         {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
+          title: "History",
+          url: "/dashboard/tasks/history",
         },
       ],
     },
     {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
+      title: "Time",
+      url: "#",
+      icon: FaRegClock,
       items: [
         {
-          title: 'Introduction',
-          url: '#',
+          title: "Time-In",
+          url: "/dashboard/time/in",
         },
         {
-          title: 'Get Started',
-          url: '#',
+          title: "Time-Out",
+          url: "/dashboard/time/out",
         },
         {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
+          title: "Logs",
+          url: "/dashboard/time/logs",
         },
       ],
     },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
-};
+}
 
 export function AppSidebar(props) {
   return (
@@ -165,7 +70,8 @@ export function AppSidebar(props) {
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail className="cursor-pointer" />
     </Sidebar>
-  );
+  )
 }
+

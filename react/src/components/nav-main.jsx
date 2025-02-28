@@ -6,7 +6,6 @@ import {
 } from '@/components/ui/collapsible';
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,11 +13,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { useNavigate } from 'react-router-dom';
 
 export function NavMain({ items }) {
+  const navigate = useNavigate();
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -40,9 +41,12 @@ export function NavMain({ items }) {
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <button
+                          className="cursor-pointer"
+                          onClick={() => navigate(subItem.url)}
+                        >
                           <span>{subItem.title}</span>
-                        </a>
+                        </button>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

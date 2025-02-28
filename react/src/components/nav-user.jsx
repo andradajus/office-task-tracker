@@ -20,10 +20,14 @@ import {
 } from '@/components/ui/sidebar';
 import { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
+import { appendBackendBaseUrl } from '@/lib/utils';
+
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useContext(UserContext);
+
+  console.log(appendBackendBaseUrl(user.profile_photo_path));
 
   return (
     <SidebarMenu>
@@ -34,13 +38,13 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+              <Avatar className="h-10 w-10 rounded-lg">
+                <AvatarImage src={appendBackendBaseUrl(user.profile_photo_path)} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   {user.first_name ? user.first_name[0].toUpperCase() : '?'}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left text-sm leading-tight bg-white">
                 <span className="truncate font-semibold">
                   {user.first_name} {user.last_name}
                 </span>
@@ -59,7 +63,7 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={appendBackendBaseUrl(user.profile_photo_path)} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
                     {user.first_name ? user.first_name[0].toUpperCase() : '?'}
                   </AvatarFallback>
