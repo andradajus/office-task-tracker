@@ -94,7 +94,9 @@ function Registration() {
     }
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (e, values) => {
+    e.preventDefault();
+    
     setIsSubmitting(true);
     setError(null);
     setFieldErrors({});
