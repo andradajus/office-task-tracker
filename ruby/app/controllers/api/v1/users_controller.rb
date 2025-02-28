@@ -3,6 +3,7 @@ class Api::V1::UsersController < ApplicationController
     if current_user
       render json: {
         id: current_user.id,
+        id_number: current_user.id_number,
         email: current_user.email,
         first_name: current_user.first_name,
         middle_name: current_user.middle_name,

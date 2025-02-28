@@ -22,7 +22,6 @@ import { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import { appendBackendBaseUrl } from '@/lib/utils';
 
-
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useContext(UserContext);
@@ -39,7 +38,10 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-10 w-10 rounded-lg">
-                <AvatarImage src={appendBackendBaseUrl(user.profile_photo_path)} alt={user.name} />
+                <AvatarImage
+                  src={appendBackendBaseUrl(user.profile_photo_path)}
+                  alt={user.name}
+                />
                 <AvatarFallback className="rounded-lg">
                   {user.first_name ? user.first_name[0].toUpperCase() : '?'}
                 </AvatarFallback>
@@ -63,7 +65,10 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={appendBackendBaseUrl(user.profile_photo_path)} alt={user.name} />
+                  <AvatarImage
+                    src={appendBackendBaseUrl(user.profile_photo_path)}
+                    alt={user.name}
+                  />
                   <AvatarFallback className="rounded-lg">
                     {user.first_name ? user.first_name[0].toUpperCase() : '?'}
                   </AvatarFallback>

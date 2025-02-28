@@ -8,9 +8,14 @@ const UserDashboard = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const currentRoute = DASHBOARD_ROUTES.find(route => route.path === location.pathname);
+    const currentRoute = DASHBOARD_ROUTES.find(
+      (route) => route.path === location.pathname
+    );
     console.log('Current Route:', location.pathname);
-    console.log('Component to Render:', currentRoute ? currentRoute.element.name : 'Not Found');
+    console.log(
+      'Component to Render:',
+      currentRoute ? currentRoute.element.name : 'Not Found'
+    );
   }, [location]);
 
   return (

@@ -321,3 +321,192 @@ paths:
                   profile_photo_url:
                     type: string
                     example: /rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBd0E9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f2b2c2e2
+  /api/v1/time_entries:
+    get:
+      summary: Get User Time Entries
+      description: Retrieve the user's time entries for the specified month and year, or the current month by default
+      tags:
+        - Time Entries
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: month
+          in: query
+          description: The month for which to retrieve time entries (e.g., 02)
+          required: false
+          schema:
+            type: string
+            example: "02"
+        - name: year
+          in: query
+          description: The year for which to retrieve time entries (e.g., 2025)
+          required: false
+          schema:
+            type: string
+            example: "2025"
+      responses:
+        '200':
+          description: User time entries retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        date:
+                          type: string
+                          format: date
+                          example: "2025-02-28"
+                        time:
+                          type: string
+                          format: time
+                          example: "09:00:00"
+                        status:
+                          type: string
+                          example: time_in
+                        user_id:
+                          type: integer
+                          example: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+    post:
+      summary: Check In/Check Out
+      description: Toggle between check-in (time in) and check-out (time out)
+      tags:
+        - Time Entries
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Checked out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Checked out successfully
+                  time_entry:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      date:
+                        type: string
+                        format: date
+                        example: "2025-02-28"
+                      time:
+                        type: string
+                        format: time
+                        example: "17:00:00"
+                      status:
+                        type: string
+                        example: time_out
+                      user_id:
+                        type: integer
+                        example: 1
+        '201':
+          description: Checked in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Checked in successfully
+                  time_entry:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      date:
+                        type: string
+                        format: date
+                        example: "2025-02-28"
+                      time:
+                        type: string
+                        format: time
+                        example: "09:00:00"
+                      status:
+                        type: string
+                        example: time_in
+                      user_id:
+                        type: integer
+                        example: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+  /api/v1/overview:
+    get:
+      summary: Get Last Two Time Entries
+      description: Retrieve the last two time entries of the user for the current date
+      tags:
+        - Overview
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Last two time entries retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        date:
+                          type: string
+                          format: date
+                          example: "2025-02-28"
+                        time:
+                          type: string
+                          format: time
+                          example: "09:00:00"
+                        status:
+                          type: string
+                          example: time_in
+                        user_id:
+                          type: integer
+                          example: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized                 

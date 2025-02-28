@@ -7,6 +7,7 @@ import {
   LogIn,
   LogOut,
 } from 'lucide-react';
+import { API } from '@/api/api';
 
 const UserDashboardHome = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -50,15 +51,61 @@ const UserDashboardHome = () => {
     });
   };
 
-  const toggleCheckIn = () => {
-    if (isCheckedIn) {
-      setCheckOutTime(new Date().toLocaleTimeString());
-    } else {
-      setCheckInTime(new Date().toLocaleTimeString());
-      setCheckOutTime(null); // Reset checkout time on new check-in
+  const toggleCheckIn = async () => {
+    try {
+      await API.postTimeEntry();
+      fetchOverview();
+    } catch (error) {
+      console.error(error);
     }
-    setIsCheckedIn((prev) => !prev);
   };
+
+  const fetchOverview = async () => {
+    try {
+      const response = await API.getOverview();
+      const timeEntries = response.data.time_entries;
+      console.log('timeEntries', timeEntries);
+
+      const todayEntries = timeEntries.filter(
+        (entry) =>
+          new Date(entry.date).toDateString() === new Date().toDateString()
+      );
+      const latestTimeIn = todayEntries.find(
+        (entry) => entry.status === 'time_in'
+      );
+      const latestTimeOut = todayEntries.find(
+        (entry) => entry.status === 'time_out'
+      );
+
+      setIsCheckedIn(!!latestTimeIn && !latestTimeOut);
+      setCheckInTime(
+        latestTimeIn
+          ? new Date(latestTimeIn.time).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            })
+          : null
+      );
+      setCheckOutTime(
+        latestTimeOut
+          ? new Date(latestTimeOut.time).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            })
+          : null
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOverview();
+  }, []);
+
+  console.log('isCheckedIn', isCheckedIn);
 
   return (
     <div className="min-h-screen  p-4 md:p-8">

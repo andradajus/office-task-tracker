@@ -1,55 +1,55 @@
-import { useState } from "react"
-import { CheckCircle, Circle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react';
+import { CheckCircle, Circle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const UserTasksMyTasks = () => {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      title: "Complete project proposal",
+      title: 'Complete project proposal',
       completed: false,
-      assignedTo: "John Doe",
-      assignedBy: "Jane Smith",
+      assignedTo: 'John Doe',
+      assignedBy: 'Jane Smith',
       dateCompleted: null,
-      remarks: "High priority",
+      remarks: 'High priority',
     },
     {
       id: 2,
-      title: "Review client feedback",
+      title: 'Review client feedback',
       completed: false,
-      assignedTo: "Alice Johnson",
-      assignedBy: "Bob Williams",
+      assignedTo: 'Alice Johnson',
+      assignedBy: 'Bob Williams',
       dateCompleted: null,
-      remarks: "Feedback due by EOD",
+      remarks: 'Feedback due by EOD',
     },
     {
       id: 3,
-      title: "Prepare for team meeting",
+      title: 'Prepare for team meeting',
       completed: false,
-      assignedTo: "Emma Brown",
-      assignedBy: "David Lee",
+      assignedTo: 'Emma Brown',
+      assignedBy: 'David Lee',
       dateCompleted: null,
-      remarks: "Agenda items needed",
+      remarks: 'Agenda items needed',
     },
     {
       id: 4,
-      title: "Update documentation",
+      title: 'Update documentation',
       completed: true,
-      assignedTo: "Michael Wilson",
-      assignedBy: "Sarah Davis",
-      dateCompleted: "2023-06-15",
-      remarks: "Version 2.0 complete",
+      assignedTo: 'Michael Wilson',
+      assignedBy: 'Sarah Davis',
+      dateCompleted: '2023-06-15',
+      remarks: 'Version 2.0 complete',
     },
     {
       id: 5,
-      title: "Fix reported bugs",
+      title: 'Fix reported bugs',
       completed: false,
-      assignedTo: "Chris Taylor",
-      assignedBy: "Lisa Anderson",
+      assignedTo: 'Chris Taylor',
+      assignedBy: 'Lisa Anderson',
       dateCompleted: null,
-      remarks: "Critical issues first",
+      remarks: 'Critical issues first',
     },
-  ])
+  ]);
 
   const toggleTaskStatus = (id) => {
     setTasks(
@@ -58,13 +58,15 @@ const UserTasksMyTasks = () => {
           return {
             ...task,
             completed: !task.completed,
-            dateCompleted: !task.completed ? new Date().toISOString().split("T")[0] : null,
-          }
+            dateCompleted: !task.completed
+              ? new Date().toISOString().split('T')[0]
+              : null,
+          };
         }
-        return task
-      }),
-    )
-  }
+        return task;
+      })
+    );
+  };
 
   return (
     <>
@@ -97,7 +99,10 @@ const UserTasksMyTasks = () => {
           </thead>
           <tbody>
             {tasks.map((task) => (
-              <tr key={task.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr
+                key={task.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {task.completed ? (
                     <CheckCircle className="inline-block w-4 h-4 mr-2 text-green-500" />
@@ -108,12 +113,16 @@ const UserTasksMyTasks = () => {
                 </td>
                 <td className="px-6 py-4">{task.assignedTo}</td>
                 <td className="px-6 py-4">{task.assignedBy}</td>
-                <td className="px-6 py-4">{task.dateCompleted || "-"}</td>
-                <td className="px-6 py-4">{task.completedBy || "-"}</td>
+                <td className="px-6 py-4">{task.dateCompleted || '-'}</td>
+                <td className="px-6 py-4">{task.completedBy || '-'}</td>
                 <td className="px-6 py-4">{task.remarks}</td>
                 <td className="px-6 py-4">
-                  <Button onClick={() => toggleTaskStatus(task.id)} size="sm" variant="outline">
-                    {task.completed ? "Reopen" : "Complete"}
+                  <Button
+                    onClick={() => toggleTaskStatus(task.id)}
+                    size="sm"
+                    variant="outline"
+                  >
+                    {task.completed ? 'Reopen' : 'Complete'}
                   </Button>
                 </td>
               </tr>
@@ -122,8 +131,7 @@ const UserTasksMyTasks = () => {
         </table>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserTasksMyTasks
-
+export default UserTasksMyTasks;

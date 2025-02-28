@@ -1,6 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { AuthenticationAPI, UserAPI } from '../constants/endpoints';
+import {
+  AuthenticationAPI,
+  UserAPI,
+  TimeAPI,
+  OverviewAPI,
+} from '../constants/endpoints';
 
 const baseURL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -48,4 +53,13 @@ export const API = {
   // USER API //
   currentUserDetails: () => api(UserAPI.user, 'get'),
   // END USER API //
+
+  // TIME LOG API //
+  postTimeEntry: () => api(TimeAPI.time_entries, 'post'),
+  getMyTimeEntries: () => api(TimeAPI.time_entries, 'get'),
+  // END TIME LOG API //
+
+  // OVERVIEW API //
+  getOverview: () => api(OverviewAPI.overview, 'get'),
+  // END OVERVIEW API //
 };

@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
     namespace :api do
       namespace :v1 do
+
         get 'health/check', to: 'health#check'
+        get 'overview', to: 'overview#index'
 
         devise_for :users, path: '', path_names: {
           sign_in: 'login',
@@ -21,6 +23,11 @@ Rails.application.routes.draw do
         }
 
         resource :user, only: [:show]
+        resources :time_entries, only: [:create, :index] do
+          collection do
+            post :check_for_unchecked_entries
+          end
+        end
     end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
