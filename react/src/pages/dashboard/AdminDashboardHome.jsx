@@ -104,10 +104,10 @@ const AdminDashboardHome = () => {
                 SA On Duty
               </h2>
               <div className="space-y-2">
-                {users.length === 0 ? (
+                {users?.length === 0 ? (
                   <p className="text-center text-gray-500">No SA on duty.</p>
                 ) : (
-                  users.map((user) => (
+                  users?.map((user) => (
                     <div
                       key={user.id}
                       className={`flex items-center gap-4 p-4 rounded-lg ${
