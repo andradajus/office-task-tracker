@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_01_022612) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_01_032904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,35 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_01_022612) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_denylists_on_jti"
+  end
+
+  create_table "routinary_task_instances", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.date "date", null: false
+    t.string "task_name", null: false
+    t.string "assigned_to"
+    t.string "assigned_by"
+    t.date "date_completed"
+    t.string "completed_by"
+    t.text "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_completed", default: false
+    t.index ["task_id"], name: "index_routinary_task_instances_on_task_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.date "date", null: false
+    t.string "task_name", null: false
+    t.string "assigned_to"
+    t.string "assigned_by"
+    t.date "date_completed"
+    t.string "completed_by"
+    t.text "remarks"
+    t.boolean "is_routinary", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_completed", default: false
   end
 
   create_table "time_entries", force: :cascade do |t|
@@ -94,5 +123,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_01_022612) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "routinary_task_instances", "tasks"
   add_foreign_key "time_entries", "users"
 end

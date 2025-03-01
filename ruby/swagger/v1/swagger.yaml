@@ -538,4 +538,386 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: Unauthorized                 
+                    example: Unauthorized
+  /api/v1/tasks:
+    post:
+      summary: Create a new task
+      description: Create a new task with the specified details
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2025-03-01"
+                    task_name:
+                      type: string
+                      example: "Daily Standup Meeting"
+                    assigned_to:
+                      type: string
+                      example: "John Doe"
+                    assigned_by:
+                      type: string
+                      example: "Jane Smith"
+                    date_completed:
+                      type: string
+                      format: date
+                      example: "2025-03-02"
+                    completed_by:
+                      type: string
+                      example: "John Doe"
+                    remarks:
+                      type: string
+                      example: "Daily team meeting"
+                    is_routinary:
+                      type: boolean
+                      example: true
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  date:
+                    type: string
+                    format: date
+                    example: "2025-03-01"
+                  task_name:
+                    type: string
+                    example: "Daily Standup Meeting"
+                  assigned_to:
+                    type: string
+                    example: "John Doe"
+                  assigned_by:
+                    type: string
+                    example: "Jane Smith"
+                  date_completed:
+                    type: string
+                    format: date
+                    example: "2025-03-02"
+                  completed_by:
+                    type: string
+                    example: "John Doe"
+                  remarks:
+                    type: string
+                    example: "Daily team meeting"
+                  is_routinary:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string    
+    get:
+      summary: List tasks
+      description: List all tasks for a specific date, including routinary tasks
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-03-01"
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    date:
+                      type: string
+                      format: date
+                      example: "2025-03-01"
+                    task_name:
+                      type: string
+                      example: "Daily Standup Meeting"
+                    assigned_to:
+                      type: string
+                      example: "John Doe"
+                    assigned_by:
+                      type: string
+                      example: "Jane Smith"
+                    date_completed:
+                      type: string
+                      format: date
+                      example: "2025-03-02"
+                    completed_by:
+                      type: string
+                      example: "John Doe"
+                    remarks:
+                      type: string
+                      example: "Daily team meeting"
+                    is_routinary:
+                      type: boolean
+                      example: true
+                    is_completed:
+                      type: boolean
+                      example: false
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: "2025-03-01T00:00:00.000Z"
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: "2025-03-01T00:00:00.000Z"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+  /api/v1/tasks/{id}:
+    put:
+      summary: Update a task
+      description: Update the details of a specific task
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2025-03-01"
+                    task_name:
+                      type: string
+                      example: "Daily Standup Meeting"
+                    assigned_to:
+                      type: string
+                      example: "John Doe"
+                    assigned_by:
+                      type: string
+                      example: "Jane Smith"
+                    date_completed:
+                      type: string
+                      format: date
+                      example: "2025-03-02"
+                    completed_by:
+                      type: string
+                      example: "John Doe"
+                    remarks:
+                      type: string
+                      example: "Daily team meeting"
+                    is_routinary:
+                      type: boolean
+                      example: true
+                    is_completed:
+                      type: boolean
+                      example: false
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  date:
+                    type: string
+                    format: date
+                    example: "2025-03-01"
+                  task_name:
+                    type: string
+                    example: "Daily Standup Meeting"
+                  assigned_to:
+                    type: string
+                    example: "John Doe"
+                  assigned_by:
+                    type: string
+                    example: "Jane Smith"
+                  date_completed:
+                    type: string
+                    format: date
+                    example: "2025-03-02"
+                  completed_by:
+                    type: string
+                    example: "John Doe"
+                  remarks:
+                    type: string
+                    example: "Daily team meeting"
+                  is_routinary:
+                    type: boolean
+                    example: true
+                  is_completed:
+                    type: boolean
+                    example: false
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Task not found
+  /api/v1/tasks/{id}/complete_tasks:
+    put:
+      summary: Complete a task
+      description: Toggle the completion status of a task
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  date:
+                    type: string
+                    format: date
+                    example: "2025-03-01"
+                  task_name:
+                    type: string
+                    example: "Daily Standup Meeting"
+                  assigned_to:
+                    type: string
+                    example: "John Doe"
+                  assigned_by:
+                    type: string
+                    example: "Jane Smith"
+                  date_completed:
+                    type: string
+                    format: date
+                    example: "2025-03-02"
+                  completed_by:
+                    type: string
+                    example: "Doe, John"
+                  remarks:
+                    type: string
+                    example: "Daily team meeting"
+                  is_routinary:
+                    type: boolean
+                    example: true
+                  is_completed:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-03-01T00:00:00.000Z"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Task not found
+                                               

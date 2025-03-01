@@ -16,3 +16,8 @@ export const TimeAPI = {
 export const OverviewAPI = {
   overview: '/overview',
 };
+
+export const TaskAPI = {
+  tasks: '/tasks',
+  taskCompleted: '/tasks/:id/complete_tasks',
+};

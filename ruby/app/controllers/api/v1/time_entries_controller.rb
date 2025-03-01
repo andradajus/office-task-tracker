@@ -40,6 +40,7 @@ class Api::V1::TimeEntriesController < ApplicationController
   def calculate_total_hours(entries)
     total_seconds = 0
     entries.group_by(&:date).each do |date, daily_entries|
+      daily_entries.sort_by!(&:created_at) # Ensure entries are sorted by creation time
       daily_entries.each_slice(2) do |time_in, time_out|
         if time_in.status == 'time_in' && time_out&.status == 'time_out'
           total_seconds += (time_out.time - time_in.time).to_i

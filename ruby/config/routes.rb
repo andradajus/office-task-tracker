@@ -26,6 +26,12 @@ Rails.application.routes.draw do
           post 'toggle_availability', on: :collection
         end
 
+        resources :tasks, only: [:create, :update, :index] do
+          collection do
+            put ':id/complete_tasks', to: 'tasks#complete_tasks'
+          end
+        end
+
         resources :time_entries, only: [:create, :index] do
           collection do
             post :check_for_unchecked_entries

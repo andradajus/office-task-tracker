@@ -5,6 +5,7 @@ import {
   UserAPI,
   TimeAPI,
   OverviewAPI,
+  TaskAPI,
 } from '../constants/endpoints';
 
 const baseURL = import.meta.env.VITE_BACKEND_API_URL;
@@ -63,4 +64,9 @@ export const API = {
   // OVERVIEW API //
   getOverview: () => api(OverviewAPI.overview, 'get'),
   // END OVERVIEW API //
+
+  // TASKS API //
+  toggleStatusComplete: (id, body) => api(TaskAPI.taskCompleted, 'put', body, { id }),
+  getTasks: () => api(TaskAPI.tasks, 'get'),
+  // END TASKS API //
 };

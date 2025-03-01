@@ -14,15 +14,8 @@ const UserDashboardHome = () => {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'Complete project proposal', completed: false },
-    { id: 2, text: 'Review client feedback', completed: false },
-    { id: 3, text: 'Prepare for team meeting', completed: false },
-    { id: 4, text: 'Update documentation', completed: true },
-    { id: 5, text: 'Fix reported bugs', completed: false },
-  ]);
+  const [tasks, setTasks] = useState([]);
 
-  // Update time every second
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -33,14 +26,23 @@ const UserDashboardHome = () => {
     };
   }, []);
 
-  const pendingTasks = tasks.filter((task) => !task.completed);
+  const pendingTasks = tasks.filter((task) => !task.is_completed);
 
-  const toggleTaskStatus = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const toggleTaskStatus = async (id) => {
+    try {
+      const task = tasks.find((task) => task.id === id);
+      const updatedTask = { ...task, is_completed: !task.is_completed };
+
+      await API.toggleStatusComplete(id, updatedTask);
+
+      setTasks(
+        tasks.map((task) =>
+          task.id === id ? updatedTask : task
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const formatTime = (date) => {
@@ -64,7 +66,6 @@ const UserDashboardHome = () => {
     try {
       const response = await API.getOverview();
       const timeEntries = response.data.time_entries;
-      console.log('timeEntries', timeEntries);
 
       const todayEntries = timeEntries.filter(
         (entry) =>
@@ -77,6 +78,7 @@ const UserDashboardHome = () => {
         (entry) => entry.status === 'time_out'
       );
 
+      setTasks(response.data.daily_tasks);
       setIsCheckedIn(!!latestTimeIn && !latestTimeOut);
       setCheckInTime(
         latestTimeIn
@@ -104,8 +106,6 @@ const UserDashboardHome = () => {
   useEffect(() => {
     fetchOverview();
   }, []);
-
-  console.log('isCheckedIn', isCheckedIn);
 
   return (
     <div className="min-h-screen  p-4 md:p-8">
@@ -220,7 +220,7 @@ const UserDashboardHome = () => {
                   <div
                     key={task.id}
                     className={`flex items-center justify-between p-4 rounded-lg border ${
-                      task.completed
+                      task.is_completed
                         ? 'bg-gray-50 border-gray-200'
                         : 'bg-white border-gray-200'
                     }`}
@@ -230,16 +230,16 @@ const UserDashboardHome = () => {
                         onClick={() => toggleTaskStatus(task.id)}
                         className="focus:outline-none"
                       >
-                        {task.completed ? (
+                        {task.is_completed ? (
                           <CheckCircle className="h-6 w-6 text-green-500" />
                         ) : (
                           <Circle className="h-6 w-6 text-gray-400" />
                         )}
                       </button>
                       <span
-                        className={`${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}
+                        className={`${task.is_completed ? 'line-through text-gray-500' : 'text-gray-800'}`}
                       >
-                        {task.text}
+                        {task.task_name}
                       </span>
                     </div>
                   </div>
