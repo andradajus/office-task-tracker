@@ -27,6 +27,8 @@ import { UserContext } from '@/context/UserContext';
 import { appendBackendBaseUrl } from '@/lib/utils';
 import { API } from '@/api/api';
 
+import Cookies from 'js-cookie';
+
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user, setUser } = useContext(UserContext);
@@ -118,24 +120,32 @@ export function NavUser() {
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={handleUpdateAvailability}
-            >
-              {user.is_available ? (
-                <IoMdRemoveCircleOutline />
-              ) : (
-                <IoMdCheckmarkCircleOutline />
-              )}
-              {user.is_available ? 'Set as away' : 'Set as available'}
-            </DropdownMenuItem>
+            {user.role !== 'admin' && (
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={handleUpdateAvailability}
+              >
+                {user.is_available ? (
+                  <IoMdRemoveCircleOutline />
+                ) : (
+                  <IoMdCheckmarkCircleOutline />
+                )}
+                {user.is_available ? 'Set as away' : 'Set as available'}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => {
+                Cookies.remove('Authorization');
+                window.location.href = '/login';
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

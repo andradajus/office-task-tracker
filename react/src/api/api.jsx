@@ -6,6 +6,7 @@ import {
   TimeAPI,
   OverviewAPI,
   TaskAPI,
+  StaffAPI,
 } from '../constants/endpoints';
 
 const baseURL = import.meta.env.VITE_BACKEND_API_URL;
@@ -54,6 +55,7 @@ export const API = {
   // USER API //
   currentUserDetails: () => api(UserAPI.user, 'get'),
   updateUserAvailability: () => api(UserAPI.userAvailability, 'post'),
+  getStudents: () => api(UserAPI.index_students, 'get'),
   // END USER API //
 
   // TIME LOG API //
@@ -69,5 +71,14 @@ export const API = {
   toggleStatusComplete: (id, body) =>
     api(TaskAPI.taskCompleted, 'put', body, { id }),
   getTasks: () => api(TaskAPI.tasks, 'get'),
+  updateTask: (id, body) => api(TaskAPI.taskId, 'put', body, { id }),
+  createTask: (body) => api(TaskAPI.tasks, 'post', body),
   // END TASKS API //
+
+  // STAFF API //
+  getStaff: () => api(StaffAPI.staff, 'get'),
+  createStaff: (body) => api(StaffAPI.staff, 'post', body),
+  updateStaff: (id, body) => api(StaffAPI.staffId, 'put', body, { id }),
+  deleteStaff: (id) => api(StaffAPI.staffId, 'delete', null, { id }),
+  // END STAFF API //
 };

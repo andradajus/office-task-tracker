@@ -1,4 +1,8 @@
 import DashboardLayout from '@/layout/DashboardLayout';
+import AdminSA from '@/pages/dashboard/admin/AdminSA';
+import AdminStaff from '@/pages/dashboard/admin/AdminStaff';
+import AdminTasks from '@/pages/dashboard/admin/AdminTasks';
+import AdminDashboardHome from '@/pages/dashboard/AdminDashboardHome';
 import UserTasksHistory from '@/pages/dashboard/user/UserTasksHistory';
 import UserTasksMyTasks from '@/pages/dashboard/user/UserTasksMyTasks';
 import UserTimeLogs from '@/pages/dashboard/user/UserTimeLogs';
@@ -37,5 +41,24 @@ export const DASHBOARD_ROUTES = [
   {
     path: 'time/logs',
     element: UserTimeLogs,
+  },
+];
+
+export const ADMIN_DASHBOARD_ROUTES = [
+  {
+    path: '/*',
+    element: AdminDashboardHome,
+  },
+  {
+    path: 'tasks',
+    element: AdminTasks,
+  },
+  {
+    path: 'staff',
+    element: AdminStaff,
+  },
+  {
+    path: 'sa',
+    element: AdminSA,
   },
 ];

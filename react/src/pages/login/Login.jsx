@@ -11,9 +11,9 @@ import {
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { UserRoundPlus } from 'lucide-react';
 import { API } from '@/api/api';
 import Cookies from 'js-cookie';
+import { MdErrorOutline } from 'react-icons/md';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -57,11 +57,9 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md border-2 border-red-100">
         <CardHeader className="space-y-1 flex flex-col items-center">
-          <div className="w-20 h-20 mb-2 flex items-center justify-center bg-primary/10 rounded-full">
-            <UserRoundPlus className="h-10 w-10 text-primary" />
-          </div>
+          <img src="/ublogo.png" alt="Logo" className="w-32 h-32" />
           <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
           <CardDescription className="text-center">
             Login to your account or create a new one
@@ -70,9 +68,12 @@ const LoginPage = () => {
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
             <TabsContent value="login">
-              <form className="space-y-4 mt-5" onSubmit={handleLogin}>
+              <form className="space-y-2" onSubmit={handleLogin}>
                 {error && (
-                  <div className="text-red-500 text-center">{error}</div>
+                  <div className="text-red-500 text-center flex items-center gap-1 justify-center">
+                    <MdErrorOutline />
+                    {error}
+                  </div>
                 )}
                 <div className="space-y-2">
                   <Label htmlFor="login">Email or ID Number</Label>
@@ -107,7 +108,7 @@ const LoginPage = () => {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full text-white"
+                  className="w-full text-white bg-red-700 hover:bg-red-500 duration-300 ease-in-out cursor-pointer"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Logging in...' : 'Login'}

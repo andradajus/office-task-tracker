@@ -7,6 +7,7 @@ export const AuthenticationAPI = {
 export const UserAPI = {
   user: '/user',
   userAvailability: '/user/toggle_availability',
+  index_students: '/user/index_students',
 };
 
 export const TimeAPI = {
@@ -20,4 +21,10 @@ export const OverviewAPI = {
 export const TaskAPI = {
   tasks: '/tasks',
   taskCompleted: '/tasks/:id/complete_tasks',
+  taskId: '/tasks/:id',
+};
+
+export const StaffAPI = {
+  staff: '/staffs',
+  staffId: '/staffs/:id',
 };

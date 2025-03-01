@@ -37,7 +37,7 @@ const UserTasksMyTasks = () => {
           : null,
       };
 
-      const response = await API.updateTask(id, updatedTask);
+      const response = await API.toggleStatusComplete(id, updatedTask);
 
       setTasks(tasks.map((task) => (task.id === id ? response.data : task)));
     } catch (error) {
