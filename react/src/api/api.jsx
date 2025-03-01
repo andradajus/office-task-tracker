@@ -66,7 +66,8 @@ export const API = {
   // END OVERVIEW API //
 
   // TASKS API //
-  toggleStatusComplete: (id, body) => api(TaskAPI.taskCompleted, 'put', body, { id }),
+  toggleStatusComplete: (id, body) =>
+    api(TaskAPI.taskCompleted, 'put', body, { id }),
   getTasks: () => api(TaskAPI.tasks, 'get'),
   // END TASKS API //
 };

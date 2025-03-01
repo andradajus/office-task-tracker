@@ -29,17 +29,17 @@ const UserTasksMyTasks = () => {
       const updatedTask = {
         ...task,
         is_completed: !task.is_completed,
-        date_completed: !task.is_completed ? new Date().toISOString().split('T')[0] : null,
-        completed_by: !task.is_completed ? `${task.assigned_to.split(' ')[1]}, ${task.assigned_to.split(' ')[0]}` : null,
+        date_completed: !task.is_completed
+          ? new Date().toISOString().split('T')[0]
+          : null,
+        completed_by: !task.is_completed
+          ? `${task.assigned_to.split(' ')[1]}, ${task.assigned_to.split(' ')[0]}`
+          : null,
       };
 
       const response = await API.updateTask(id, updatedTask);
 
-      setTasks(
-        tasks.map((task) =>
-          task.id === id ? response.data : task
-        )
-      );
+      setTasks(tasks.map((task) => (task.id === id ? response.data : task)));
     } catch (error) {
       console.error(error);
     }
@@ -47,15 +47,15 @@ const UserTasksMyTasks = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        Loading...
-      </div>
-    )
+      <div className="flex items-center justify-center h-64">Loading...</div>
+    );
   }
 
   return (
     <>
-      <span className="font-bold text-center px-5 py-4 text-3xl">My Tasks today - {date.toLocaleDateString()}</span>
+      <span className="font-bold text-center px-5 py-4 text-3xl">
+        My Tasks today - {date.toLocaleDateString()}
+      </span>
       <div className="overflow-x-auto p-7">
         {tasks.length === 0 ? (
           <p className="text-center text-gray-500">No tasks today.</p>

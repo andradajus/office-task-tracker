@@ -35,11 +35,7 @@ const UserDashboardHome = () => {
 
       await API.toggleStatusComplete(id, updatedTask);
 
-      setTasks(
-        tasks.map((task) =>
-          task.id === id ? updatedTask : task
-        )
-      );
+      setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
     } catch (error) {
       console.error(error);
     }
