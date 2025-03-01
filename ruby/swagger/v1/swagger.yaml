@@ -321,6 +321,35 @@ paths:
                   profile_photo_url:
                     type: string
                     example: /rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBd0E9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f2b2c2e2
+  /api/v1/user/toggle_availability:
+    post:
+      summary: Toggle User Availability
+      description: Toggle the availability status of the current user
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Availability status toggled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_available:
+                    type: boolean
+                    example: true
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
   /api/v1/time_entries:
     get:
       summary: Get User Time Entries

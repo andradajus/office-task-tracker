@@ -22,7 +22,10 @@ Rails.application.routes.draw do
           confirmations: 'api/v1/users/confirmations'
         }
 
-        resource :user, only: [:show]
+        resource :user, only: [:show] do
+          post 'toggle_availability', on: :collection
+        end
+
         resources :time_entries, only: [:create, :index] do
           collection do
             post :check_for_unchecked_entries
