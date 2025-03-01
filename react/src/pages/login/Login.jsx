@@ -107,7 +107,7 @@ const LoginPage = () => {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full text-black"
+                  className="w-full text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Logging in...' : 'Login'}

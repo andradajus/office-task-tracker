@@ -46,14 +46,6 @@ const data = {
       icon: FaRegClock,
       items: [
         {
-          title: 'Time-In',
-          url: '/dashboard/time/in',
-        },
-        {
-          title: 'Time-Out',
-          url: '/dashboard/time/out',
-        },
-        {
           title: 'Logs',
           url: '/dashboard/time/logs',
         },

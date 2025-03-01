@@ -8,6 +8,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      defaultMonth={new Date(1995, 6)}
+      startMonth={new Date(1995, 6)}
+      endMonth={new Date(2005, 9)}
       className={cn('p-3', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row gap-2',

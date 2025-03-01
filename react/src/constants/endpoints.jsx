@@ -6,6 +6,7 @@ export const AuthenticationAPI = {
 
 export const UserAPI = {
   user: '/user',
+  userAvailability: '/user/toggle_availability',
 };
 
 export const TimeAPI = {

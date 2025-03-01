@@ -11,7 +11,7 @@ const UserTimeLogs = () => {
   const fetchTimeLogs = async () => {
     try {
       const response = await API.getMyTimeEntries();
-      setTimeLogs(response.data.time_entries);
+      setTimeLogs(response.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -26,15 +26,18 @@ const UserTimeLogs = () => {
   return (
     <div className="p-5">
       <div className="text-lg font-bold">
-        Total Hours Rendered for the month of
+        Total hours rendered for the month of
         <span className="ml-1">
           {date.toLocaleString('default', { month: 'long' })}:
+        </span>
+        <span className="mx-1">
+          {timeLogs.total_hours_rendered_this_month} hours
         </span>
       </div>
       <div className="overflow-x-auto p-5">
         {loading ? (
           <div className="text-center text-gray-500">Loading...</div>
-        ) : timeLogs.length === 0 ? (
+        ) : timeLogs?.time_entries?.length === 0 ? (
           <div className="text-center text-gray-500">
             No time logs available.
           </div>
@@ -54,7 +57,7 @@ const UserTimeLogs = () => {
               </tr>
             </thead>
             <tbody>
-              {timeLogs.map((log) => (
+              {timeLogs?.time_entries?.map((log) => (
                 <tr
                   key={log.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"

@@ -1,6 +1,10 @@
 import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  IoMdCheckmarkCircleOutline,
+  IoMdRemoveCircleOutline,
+} from 'react-icons/io';
 
 import {
   DropdownMenu,
@@ -21,12 +25,23 @@ import {
 import { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import { appendBackendBaseUrl } from '@/lib/utils';
+import { API } from '@/api/api';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  console.log(appendBackendBaseUrl(user.profile_photo_path));
+  const handleUpdateAvailability = async () => {
+    try {
+      const response = await API.updateUserAvailability();
+      setUser((prevUser) => ({
+        ...prevUser,
+        is_available: response.data.is_available,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -35,9 +50,9 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground "
             >
-              <Avatar className="h-10 w-10 rounded-lg">
+              <Avatar className="h-7 w-7 rounded-full">
                 <AvatarImage
                   src={appendBackendBaseUrl(user.profile_photo_path)}
                   alt={user.name}
@@ -47,9 +62,19 @@ export function NavUser() {
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight bg-white">
-                <span className="truncate font-semibold">
-                  {user.first_name} {user.last_name}
-                </span>
+                <div className="flex items-center gap-1">
+                  <span className="truncate font-semibold">
+                    {user.first_name} {user.last_name}
+                  </span>
+                  <span className="relative flex size-2 mx-1">
+                    <span
+                      className={`absolute inline-flex h-full w-full animate-ping rounded-full ${user.is_available ? 'bg-green-400' : 'bg-orange-400'} opacity-75`}
+                    ></span>
+                    <span
+                      className={`relative inline-flex size-2 rounded-full ${user.is_available ? 'bg-green-500' : 'bg-orange-500'}`}
+                    ></span>
+                  </span>
+                </div>
                 <span className="truncate text-xs">{user.id_number}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -74,22 +99,43 @@ export function NavUser() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {user.first_name} {user.last_name}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <span className="truncate font-semibold">
+                      {user.first_name} {user.last_name}
+                    </span>
+                    <span className="relative flex size-2 mx-1">
+                      <span
+                        className={`absolute inline-flex h-full w-full animate-ping rounded-full ${user.is_available ? 'bg-green-400' : 'bg-orange-400'} opacity-75`}
+                      ></span>
+                      <span
+                        className={`relative inline-flex size-2 rounded-full ${user.is_available ? 'bg-green-500' : 'bg-orange-500'}`}
+                      ></span>
+                    </span>
+                  </div>
                   <span className="truncate text-xs">{user.id_number}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={handleUpdateAvailability}
+            >
+              {user.is_available ? (
+                <IoMdRemoveCircleOutline />
+              ) : (
+                <IoMdCheckmarkCircleOutline />
+              )}
+              {user.is_available ? 'Set as away' : 'Set as available'}
+            </DropdownMenuItem>
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <LogOut />
               Log out
             </DropdownMenuItem>

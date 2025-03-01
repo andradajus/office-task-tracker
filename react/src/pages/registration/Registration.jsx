@@ -450,12 +450,12 @@ function Registration() {
 
               <Button
                 type="submit"
-                className="w-full text-black disabled:text-gray-600"
+                className="w-full text-white disabled:text-gray-600"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" />
                     Registering...
                   </>
                 ) : (

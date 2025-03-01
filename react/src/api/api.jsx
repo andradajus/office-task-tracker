@@ -52,6 +52,7 @@ export const API = {
 
   // USER API //
   currentUserDetails: () => api(UserAPI.user, 'get'),
+  updateUserAvailability: () => api(UserAPI.userAvailability, 'post'),
   // END USER API //
 
   // TIME LOG API //
