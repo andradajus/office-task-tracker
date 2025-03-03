@@ -54,7 +54,7 @@ export const API = {
 
   // USER API //
   currentUserDetails: () => api(UserAPI.user, 'get'),
-  updateUserAvailability: () => api(UserAPI.userAvailability, 'post'),
+  updateUserAvailability: (body) => api(UserAPI.userAvailability, 'post', body),
   getStudents: () => api(UserAPI.index_students, 'get'),
   // END USER API //
 
@@ -73,6 +73,7 @@ export const API = {
   getTasks: () => api(TaskAPI.tasks, 'get'),
   updateTask: (id, body) => api(TaskAPI.taskId, 'put', body, { id }),
   createTask: (body) => api(TaskAPI.tasks, 'post', body),
+  deleteTask: (id) => api(TaskAPI.taskId, 'delete', null, { id }),
   // END TASKS API //
 
   // STAFF API //

@@ -27,6 +27,7 @@ class Api::V1::OverviewController < ApplicationController
                                      emergency_contact: user.emergency_contact,
                                      emergency_contact_number: user.emergency_contact_number,
                                      role: user.role,
+                                     away_remarks: user.away_remarks,
                                      is_available: user.is_available,
                                      profile_photo_path: user.profile_photo.attached? ? Rails.application.routes.url_helpers.rails_blob_path(user.profile_photo, only_path: true) : nil
                                    }
@@ -70,6 +71,7 @@ class Api::V1::OverviewController < ApplicationController
           emergency_contact_number: current_user.emergency_contact_number,
           role: current_user.role,
           is_available: current_user.is_available,
+          away_remarks: current_user.away_remarks,
           profile_photo_path: current_user.profile_photo.attached? ? Rails.application.routes.url_helpers.rails_blob_path(current_user.profile_photo, only_path: true) : nil
         }
       }, status: :ok

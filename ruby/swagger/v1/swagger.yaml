@@ -899,6 +899,32 @@ paths:
                   error:
                     type: string
                     example: Task not found
+    delete:
+      summary: Delete a task
+      description: Delete a specific task by ID
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Task deleted successfully
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Task not found
   /api/v1/tasks/{id}/complete_tasks:
     put:
       summary: Complete a task

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,6 +23,13 @@ const LoginPage = () => {
     login: '',
     password: '',
   });
+
+  useEffect(() => {
+    const authToken = Cookies.get('Authorization');
+    if (authToken) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

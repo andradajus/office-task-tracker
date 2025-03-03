@@ -121,10 +121,14 @@ const AdminDashboardHome = () => {
                             alt={user.first_name}
                             className="w-10 h-10 rounded-full"
                           />
-                          <span className="text-white font-bold">
+                          <span className="text-white font-bold text-sm">
                             {user.first_name} {user.last_name}
                           </span>
                         </div>
+
+                        {!user.is_available && ( 
+                          <span className="text-xs text-white italic max-w-64 truncate">{user.away_remarks}</span>
+                        )}
 
                         <div className="flex items-center gap-3">
                           <span className="text-white text-xs">

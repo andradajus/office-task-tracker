@@ -27,7 +27,7 @@ Rails.application.routes.draw do
           get 'index_students', on: :collection
         end
 
-        resources :tasks, only: [:create, :update, :index] do
+        resources :tasks, only: [:create, :update, :index, :destroy] do
           collection do
             put ':id/complete_tasks', to: 'tasks#complete_tasks'
           end

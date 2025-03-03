@@ -15,6 +15,7 @@ class Api::V1::UsersController < ApplicationController
         emergency_contact_number: current_user.emergency_contact_number,
         role: current_user.role,
         is_available: current_user.is_available,
+        away_remarks: current_user.away_remarks,
         profile_photo_path: current_user.profile_photo.attached? ? Rails.application.routes.url_helpers.rails_blob_path(current_user.profile_photo, only_path: true) : nil
       }, status: :ok
     else
@@ -24,8 +25,12 @@ class Api::V1::UsersController < ApplicationController
 
   def toggle_availability
     if current_user
-      current_user.update(is_available: !current_user.is_available)
-      render json: { is_available: current_user.is_available }, status: :ok
+      if current_user.is_available
+        current_user.update(is_available: false, away_remarks: params[:away_remarks])
+      else
+        current_user.update(is_available: true, away_remarks: nil)
+      end
+      render json: { is_available: current_user.is_available, away_remarks: current_user.away_remarks }, status: :ok
     else
       render json: { error: 'User not found' }, status: :not_found
     end
@@ -47,6 +52,7 @@ class Api::V1::UsersController < ApplicationController
         emergency_contact_number: user.emergency_contact_number,
         role: user.role,
         is_available: user.is_available,
+        away_remarks: user.away_remarks,
         profile_photo_path: user.profile_photo.attached? ? Rails.application.routes.url_helpers.rails_blob_path(user.profile_photo, only_path: true) : nil
       }
     end

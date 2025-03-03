@@ -1,5 +1,5 @@
 class Api::V1::TasksController < ApplicationController
-  before_action :set_task, only: [:update, :complete_tasks]
+  before_action :set_task, only: [:update, :complete_tasks, :destroy]
 
   def create
     @task = Task.new(task_params)
@@ -41,6 +41,14 @@ class Api::V1::TasksController < ApplicationController
     non_routinary_tasks = Task.where(date: date)
     tasks = routinary_tasks.or(non_routinary_tasks)
     render json: tasks, status: :ok
+  end
+
+  def destroy
+    if @task.destroy
+      render json: { message: 'Task deleted successfully' }, status: :ok
+    else
+      render json: { error: 'Failed to delete task' }, status: :unprocessable_entity
+    end
   end
 
   private

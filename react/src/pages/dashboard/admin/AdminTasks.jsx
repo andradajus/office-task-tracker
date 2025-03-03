@@ -167,6 +167,15 @@ const AdminTasks = () => {
     }
   };
 
+  const handleDelete = async (task) => {
+    try {
+      await API.deleteTask(task.id);
+      fetchTasks();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -260,6 +269,13 @@ const AdminTasks = () => {
                       >
                         Edit
                       </Button>
+                      <Button
+                        onClick={() => handleDelete(task)}
+                        size="sm"
+                        variant="outline"
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -326,6 +342,13 @@ const AdminTasks = () => {
                         variant="outline"
                       >
                         Edit
+                      </Button>
+                      <Button
+                        onClick={() => handleDelete(task)}
+                        size="sm"
+                        variant="outline"
+                      >
+                        Delete
                       </Button>
                     </td>
                   </tr>
