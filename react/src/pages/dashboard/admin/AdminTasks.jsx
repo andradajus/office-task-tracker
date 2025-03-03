@@ -530,7 +530,8 @@ const AdminTasks = () => {
               />
             </div>
             <div className="flex items-center">
-              <Checkbox
+              <input
+                type="checkbox"
                 id="is_routinary"
                 name="is_routinary"
                 checked={newTask.is_routinary}
