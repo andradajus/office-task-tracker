@@ -25,7 +25,7 @@ class Api::V1::TasksController < ApplicationController
     if @task.is_completed
       @task.update(is_completed: false, completed_by: nil, date_completed: nil)
     else
-      @task.update(is_completed: true, completed_by: "#{current_user.last_name}, #{current_user.first_name}", date_completed: Date.current)
+      @task.update(is_completed: true, completed_by: "#{current_user.last_name}, #{current_user.first_name}", date_completed: Time.zone.today)
     end
 
     if @task.save
@@ -36,8 +36,10 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def index
-    date = params[:date] ? Date.parse(params[:date]) : Date.current
-    tasks = Task.where(date: date).or(Task.where(is_routinary: true))
+    date = params[:date] ? Time.zone.parse(params[:date]) : Time.zone.today
+    routinary_tasks = Task.where(is_routinary: true)
+    non_routinary_tasks = Task.where(date: date)
+    tasks = routinary_tasks.or(non_routinary_tasks)
     render json: tasks, status: :ok
   end
 
@@ -59,6 +61,6 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:date, :task_name, :assigned_to, :assigned_by, :date_completed, :completed_by, :remarks, :is_routinary, :is_completed)
+    params.require(:task).permit(:date, :task_name, :assigned_to, :assigned_by, :completed_by, :remarks, :is_routinary, :is_completed)
   end
 end

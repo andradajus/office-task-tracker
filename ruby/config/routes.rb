@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
         resource :user, only: [:show] do
           post 'toggle_availability', on: :collection
+          get 'index_students', on: :collection
         end
 
         resources :tasks, only: [:create, :update, :index] do
@@ -37,6 +38,8 @@ Rails.application.routes.draw do
             post :check_for_unchecked_entries
           end
         end
+
+        resources :staffs, only: [:index, :create, :update, :destroy]
     end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

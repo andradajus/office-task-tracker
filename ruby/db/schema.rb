@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_01_032904) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_01_064258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,6 +63,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_01_032904) do
     t.datetime "updated_at", null: false
     t.boolean "is_completed", default: false
     t.index ["task_id"], name: "index_routinary_task_instances_on_task_id"
+  end
+
+  create_table "staff", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "middle_name"
+    t.string "last_name", null: false
+    t.string "designation", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|

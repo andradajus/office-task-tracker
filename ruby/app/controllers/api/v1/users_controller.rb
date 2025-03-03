@@ -30,4 +30,26 @@ class Api::V1::UsersController < ApplicationController
       render json: { error: 'User not found' }, status: :not_found
     end
   end
+
+  def index_students
+    students = User.where(role: 'student').map do |user|
+      {
+        id: user.id,
+        id_number: user.id_number,
+        email: user.email,
+        first_name: user.first_name,
+        middle_name: user.middle_name,
+        last_name: user.last_name,
+        birthday: user.birthday,
+        course: user.course,
+        contact_number: user.contact_number,
+        emergency_contact: user.emergency_contact,
+        emergency_contact_number: user.emergency_contact_number,
+        role: user.role,
+        is_available: user.is_available,
+        profile_photo_path: user.profile_photo.attached? ? Rails.application.routes.url_helpers.rails_blob_path(user.profile_photo, only_path: true) : nil
+      }
+    end
+    render json: students, status: :ok
+  end
 end
