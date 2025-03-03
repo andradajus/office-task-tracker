@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { CheckCircle, Circle, Clock, ListTodo } from 'lucide-react';
 import { API } from '@/api/api';
 import { appendBackendBaseUrl } from '@/lib/utils';
+import OverviewChannel from '@/channels/overview_channel';
+import { useWebSocket } from '@/context/WebSocketContext';
 
 const AdminDashboardHome = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
+  const { data } = useWebSocket();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -40,11 +43,22 @@ const AdminDashboardHome = () => {
 
   useEffect(() => {
     fetchOverview();
+
+    const subscription = OverviewChannel;
+
+    subscription.received = (data) => {
+      console.log("Received data:", data);
+      setTasks(data.daily_tasks || []);
+      setUsers(data.users_with_time_in || []);
+    };
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
-  console.log('users', users);
   return (
-    <div className="min-h-screen  p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Column */}
