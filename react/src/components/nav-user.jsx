@@ -25,7 +25,13 @@ import { UserContext } from '@/context/UserContext';
 import { appendBackendBaseUrl } from '@/lib/utils';
 import { API } from '@/api/api';
 import Cookies from 'js-cookie';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -37,7 +43,9 @@ export function NavUser() {
 
   const handleUpdateAvailability = async () => {
     try {
-      const response = await API.updateUserAvailability({ away_remarks: awayRemarks });
+      const response = await API.updateUserAvailability({
+        away_remarks: awayRemarks,
+      });
       setUser((prevUser) => ({
         ...prevUser,
         is_available: response.data.is_available,
@@ -130,10 +138,11 @@ export function NavUser() {
 
                     {user.is_available ? (
                       <span className="truncate text-xs">{user.id_number}</span>
-                    ): (
-                      <span className="truncate text-[0.6rem] max-w-48 italic font-light mt-1">{user.away_remarks}</span>
+                    ) : (
+                      <span className="truncate text-[0.6rem] max-w-48 italic font-light mt-1">
+                        {user.away_remarks}
+                      </span>
                     )}
-                    
                   </div>
                 </div>
               </DropdownMenuLabel>

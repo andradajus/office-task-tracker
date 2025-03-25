@@ -1,4 +1,4 @@
-import { createConsumer } from "@rails/actioncable";
+import { createConsumer } from '@rails/actioncable';
 
 const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
 

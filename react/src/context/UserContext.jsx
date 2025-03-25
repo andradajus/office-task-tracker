@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     } catch (error) {
       window.location.href = '/login';
+      cookies.remove('Authorization');
       console.error(error);
     }
   };
@@ -27,6 +28,7 @@ export const UserProvider = ({ children }) => {
     } else {
       setLoading(false);
       window.location.href = '/login';
+      cookies.remove('Authorization');
     }
   }, []);
 

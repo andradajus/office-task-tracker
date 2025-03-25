@@ -80,4 +80,8 @@ Rails.application.configure do
   Rails.application.config.middleware.use Warden::Manager do |manager|
     manager.failure_app = lambda { |env| puts "Warden Failure: #{env['warden'].message}" }
   end
+
+  config.action_cable.disable_request_forgery_protection = true
+  config.action_cable.url = "ws://localhost:3000/cable"
+  config.action_cable.allowed_request_origins = [ 'http://localhost:3000', /http:\/\/localhost:.*/ ]
 end

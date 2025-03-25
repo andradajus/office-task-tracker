@@ -11,6 +11,8 @@ const AdminDashboardHome = () => {
   const [users, setUsers] = useState([]);
   const { data } = useWebSocket();
 
+  console.log('data', data);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -47,7 +49,7 @@ const AdminDashboardHome = () => {
     const subscription = OverviewChannel;
 
     subscription.received = (data) => {
-      console.log("Received data:", data);
+      console.log('Received data:', data);
       setTasks(data.daily_tasks || []);
       setUsers(data.users_with_time_in || []);
     };
@@ -140,8 +142,10 @@ const AdminDashboardHome = () => {
                           </span>
                         </div>
 
-                        {!user.is_available && ( 
-                          <span className="text-xs text-white italic max-w-64 truncate">{user.away_remarks}</span>
+                        {!user.is_available && (
+                          <span className="text-xs text-white italic max-w-64 truncate">
+                            {user.away_remarks}
+                          </span>
                         )}
 
                         <div className="flex items-center gap-3">
