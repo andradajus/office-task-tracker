@@ -17,7 +17,6 @@ import {
   SelectItem,
   SelectValue,
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 
 const AdminTasks = () => {
   const [tasks, setTasks] = useState([]);
